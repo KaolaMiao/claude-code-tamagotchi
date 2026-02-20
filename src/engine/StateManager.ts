@@ -139,7 +139,6 @@ export class StateManager {
       lastSlept: now,
       
       currentAnimation: 'idle',
-      animationFrame: 0,
       animationStartTime: now,
       isAsleep: false,
       isSick: false,
