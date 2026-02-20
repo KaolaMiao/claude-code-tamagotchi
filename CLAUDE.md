@@ -126,3 +126,32 @@ The pet can now watch Claude Code work and provide witty, contextual observation
 - Improved error handling with proper logging
 - Streamlined mood/severity system
 - Cleaner separation of concerns in feedback system
+
+## Code Review Best Practices (Learned from Experience)
+
+When performing code reviews on this codebase:
+
+### Common Issues to Check
+1. **Duplicate Property Definitions**
+   - Check `PetState` interface for duplicate fields (e.g., `animationFrame` was defined twice)
+   - Check `createDefaultState()` for duplicate property assignments
+   
+2. **Unused Imports and Code**
+   - Remove unused type imports (e.g., `Animation` type)
+   - Remove unused private methods (e.g., `decayMood`)
+   - Check for duplicate module imports (e.g., `fs` imported twice)
+
+3. **Git Safety**
+   - **NEVER delete untracked folders without backup** (e.g., `src/engine/providers/`)
+   - Note: `git stash` does NOT save untracked files
+   - Always backup before cleanup: `git add -N <folder>` or copy files first
+
+4. **Recovery Techniques**
+   - If files are deleted, use `git fsck --lost-found --dangling` to find content
+   - Use `git cat-file -p <blob-hash>` to recover file content from dangling blobs
+
+### Testing Checklist
+- [ ] TypeScript compiles without errors: `tsc --noEmit`
+- [ ] Pet statusline displays correctly
+- [ ] Custom stat providers work (if applicable)
+- [ ] Environment variables are properly loaded from `~/.claude/settings.json`
