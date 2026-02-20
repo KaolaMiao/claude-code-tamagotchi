@@ -75,6 +75,11 @@ export interface Config {
   customStatEnabled: boolean;
   customStatExpiryMs: number;
 
+  // Usage query integration
+  usageQueryEnabled: boolean;
+  usageQueryInterval: number;
+  usageQueryIcon: string;
+
   // Paths
   stateFile: string;
   actionFile: string;
@@ -143,6 +148,11 @@ export const config: Config = {
   // Custom stat attribute
   customStatEnabled: process.env.PET_CUSTOM_STAT_ENABLED === 'true',
   customStatExpiryMs: parseInt(process.env.PET_CUSTOM_STAT_EXPIRY_MS || '300000'), // 5 minutes default
+
+  // Usage query integration
+  usageQueryEnabled: process.env.PET_USAGE_QUERY_ENABLED === 'true',
+  usageQueryInterval: parseInt(process.env.PET_USAGE_QUERY_INTERVAL || '60'), // Check every 60 updates (~3 minutes)
+  usageQueryIcon: process.env.PET_USAGE_QUERY_ICON || '🔋',
 
   // Paths
   stateFile: resolvePath(process.env.PET_STATE_FILE || '~/.claude/pets/claude-pet-state.json'),

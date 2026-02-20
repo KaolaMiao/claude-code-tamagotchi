@@ -2,6 +2,7 @@ import { StateManager, PetState } from './StateManager';
 import { AnimationManager } from './AnimationManager';
 import { ActivitySystem } from './ActivitySystem';
 import { FeedbackSystem } from './feedback/FeedbackSystem';
+import { UsageQueryClient } from '../llm/UsageQueryClient';
 import { config } from '../utils/config';
 import * as fs from 'fs';
 
@@ -16,15 +17,29 @@ export class PetEngine {
   private animationManager: AnimationManager;
   private activitySystem: ActivitySystem;
   private feedbackSystem: FeedbackSystem;
+  private usageQueryClient: UsageQueryClient | null = null;
   private state: PetState | null = null;
   private transcriptPath?: string;
   private sessionId?: string;
+  private updatesSinceUsageQuery = 0;
   
   constructor() {
     this.stateManager = new StateManager();
     this.animationManager = new AnimationManager();
     this.activitySystem = new ActivitySystem();
     this.feedbackSystem = new FeedbackSystem();
+
+    // Initialize usage query client if enabled
+    if (config.usageQueryEnabled) {
+      this.usageQueryClient = UsageQueryClient.fromEnv();
+      if (this.usageQueryClient) {
+        if (config.debugMode) {
+          console.log('Usage query client initialized');
+        }
+      } else if (config.debugMode) {
+        console.error('Usage query enabled but ANTHROPIC_AUTH_TOKEN or ANTHROPIC_BASE_URL not set');
+      }
+    }
   }
   
   async initialize(): Promise<void> {
@@ -54,7 +69,17 @@ export class PetEngine {
     if (config.feedbackEnabled && transcriptPath && sessionId) {
       this.feedbackSystem.processFeedback(this.state, transcriptPath, sessionId);
     }
-    
+
+    // Query usage if enabled
+    if (config.usageQueryEnabled && this.usageQueryClient) {
+      this.updatesSinceUsageQuery++;
+
+      if (this.updatesSinceUsageQuery >= config.usageQueryInterval) {
+        this.updatesSinceUsageQuery = 0;
+        await this.updateUsageStat();
+      }
+    }
+
     // Check if pending action is complete
     if (this.state.pendingAction) {
       // Increment update count for the action
@@ -315,6 +340,36 @@ export class PetEngine {
   private handleClearCustomStat(): void {
     if (!this.state) return;
     this.state.customStat = undefined;
+  }
+
+  /**
+   * Query usage API and update custom stat with token percentage
+   */
+  private async updateUsageStat(): Promise<void> {
+    if (!this.usageQueryClient || !this.state) return;
+
+    try {
+      const result = await this.usageQueryClient.queryTokenUsage();
+
+      // Update custom stat with usage data
+      this.state.customStat = {
+        icon: config.usageQueryIcon,
+        value: result.tokenPercentage,
+        updatedAt: result.timestamp
+      };
+
+      if (config.debugMode) {
+        console.log(`Usage stat updated: ${config.usageQueryIcon}${result.tokenPercentage}%`);
+      }
+    } catch (error) {
+      // Silent fail - don't disrupt pet operation
+      if (config.debugMode) {
+        console.error('Usage query failed:', error instanceof Error ? error.message : error);
+      }
+
+      // On repeated failures, consider disabling or showing error stat
+      // For now, just let it retry on next interval
+    }
   }
   
   // Process input for keyword detection
