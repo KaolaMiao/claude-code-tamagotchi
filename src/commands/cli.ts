@@ -23,7 +23,7 @@ async function main() {
   // Convert CLI command to slash command format expected by CommandProcessor
   // Special handling for commands that need "pet-" prefix
   let slashCommand: string;
-  if (command === 'name' || command === 'reset' || command === 'stats' || command === 'status' || command === 'help') {
+  if (command === 'name' || command === 'reset' || command === 'stats' || command === 'status' || command === 'help' || command === 'custom') {
     slashCommand = `/pet-${command} ${args}`.trim();
   } else {
     // Commands like feed, play, pet, clean, sleep, wake are used without "pet-" prefix

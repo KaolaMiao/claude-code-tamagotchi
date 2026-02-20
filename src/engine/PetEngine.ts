@@ -370,38 +370,88 @@ export class PetEngine {
   
   getStats(): string {
     if (!this.state) return 'No pet data';
-    
+
     // Compact stats with critical alerts
     let stats = '';
-    
+
     // Show critical stats in red if low
     if (this.state.hunger < 30) {
       stats += `🍖 ${Math.round(this.state.hunger)}%⚠️ `;
     } else {
       stats += `🍖 ${Math.round(this.state.hunger)}% `;
     }
-    
+
     if (this.state.energy < 30) {
       stats += `⚡ ${Math.round(this.state.energy)}%⚠️ `;
     } else {
       stats += `⚡ ${Math.round(this.state.energy)}% `;
     }
-    
+
     if (this.state.cleanliness < 30) {
       stats += `🧼 ${Math.round(this.state.cleanliness)}%⚠️ `;
     } else {
       stats += `🧼 ${Math.round(this.state.cleanliness)}% `;
     }
-    
+
     stats += `❤️ ${Math.round(this.state.happiness)}%`;
-    
+
+    // Add custom stat if enabled and valid
+    if (config.customStatEnabled && this.isValidCustomStat()) {
+      const { icon, value } = this.state.customStat!;
+      stats += ` ${icon}${value}%`;
+    }
+
     // Add session info if explicitly enabled
     const showSession = process.env.PET_SHOW_SESSION === 'true';
     if (showSession) {
       stats += ` | Session: ${this.state.sessionUpdateCount}`;
     }
-    
+
     return stats;
+  }
+
+  /**
+   * Set custom stat attribute
+   * @param icon - Emoji or symbol to display
+   * @param value - Percentage value (0-100)
+   */
+  setCustomStat(icon: string, value: number): void {
+    if (!this.state) return;
+
+    // Clamp value between 0 and 100
+    const clampedValue = Math.max(0, Math.min(100, Math.round(value)));
+
+    this.state.customStat = {
+      icon,
+      value: clampedValue,
+      updatedAt: Date.now()
+    };
+  }
+
+  /**
+   * Clear custom stat attribute
+   */
+  clearCustomStat(): void {
+    if (!this.state) return;
+    this.state.customStat = undefined;
+  }
+
+  /**
+   * Check if custom stat is valid and not expired
+   */
+  private isValidCustomStat(): boolean {
+    if (!this.state?.customStat) return false;
+
+    const { updatedAt } = this.state.customStat;
+    const age = Date.now() - updatedAt;
+
+    // Check if expired
+    if (age > config.customStatExpiryMs) {
+      this.state.customStat = undefined; // Clear expired stat
+      return false;
+    }
+
+    return true;
   }
   
   getDetailedStats(): object {

@@ -70,7 +70,11 @@ export interface Config {
   feedbackRemarkLength: number;
   showComplianceScore: boolean;
   feedbackMaxHistory: number;
-  
+
+  // Custom stat attribute
+  customStatEnabled: boolean;
+  customStatExpiryMs: number;
+
   // Paths
   stateFile: string;
   actionFile: string;
@@ -116,15 +120,15 @@ export const config: Config = {
   // Feedback system
   feedbackEnabled: process.env.PET_FEEDBACK_ENABLED === 'true',
   feedbackMode: (process.env.PET_FEEDBACK_MODE as any) || 'full',
-  feedbackCheckInterval: parseInt(process.env.PET_FEEDBACK_CHECK_INTERVAL || '5'),
+  feedbackCheckInterval: parseInt(process.env.PET_FEEDBACK_CHECK_INTERVAL || '40'),
   feedbackBatchSize: parseInt(process.env.PET_FEEDBACK_BATCH_SIZE || '10'),
   feedbackMinMessages: parseInt(process.env.PET_FEEDBACK_MIN_MESSAGES || '3'),
   feedbackStaleLockTime: parseInt(process.env.PET_FEEDBACK_STALE_LOCK_TIME || '30000'),
   feedbackDbPath: resolvePath(process.env.PET_FEEDBACK_DB_PATH || '~/.claude/pets/feedback.db'),
   feedbackDbMaxSize: parseInt(process.env.PET_FEEDBACK_DB_MAX_SIZE || '50'),
   groqApiKey: process.env.PET_GROQ_API_KEY || process.env.GROQ_API_KEY,
-  groqModel: process.env.PET_GROQ_MODEL || 'openai/gpt-oss-20b',
-  groqTimeout: parseInt(process.env.PET_GROQ_TIMEOUT || '2000'),
+  groqModel: process.env.PET_GROQ_MODEL || 'groq/compound-mini',
+  groqTimeout: parseInt(process.env.PET_GROQ_TIMEOUT || '5000'),
   groqMaxRetries: parseInt(process.env.PET_GROQ_MAX_RETRIES || '2'),
   moodDecayRate: parseInt(process.env.PET_MOOD_DECAY_RATE || '5'),
   annoyedThreshold: parseInt(process.env.PET_ANNOYED_THRESHOLD || '3'),
@@ -135,7 +139,11 @@ export const config: Config = {
   feedbackRemarkLength: parseInt(process.env.PET_FEEDBACK_REMARK_LENGTH || '50'),
   showComplianceScore: process.env.PET_SHOW_COMPLIANCE_SCORE === 'true',
   feedbackMaxHistory: parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '200'),
-  
+
+  // Custom stat attribute
+  customStatEnabled: process.env.PET_CUSTOM_STAT_ENABLED === 'true',
+  customStatExpiryMs: parseInt(process.env.PET_CUSTOM_STAT_EXPIRY_MS || '300000'), // 5 minutes default
+
   // Paths
   stateFile: resolvePath(process.env.PET_STATE_FILE || '~/.claude/pets/claude-pet-state.json'),
   actionFile: resolvePath(process.env.PET_ACTION_FILE || '/tmp/pet-action.json'),

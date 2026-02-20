@@ -158,12 +158,116 @@ export class CommandProcessor {
         
       case 'pet-help':
         return this.getHelp();
-        
+
+      case 'pet-custom':
+        if (parameter) {
+          return await this.setCustomStat(parameter);
+        }
+        return 'Usage: /pet-custom <icon> <value> | /pet-custom <value> | /pet-custom clear';
+
       default:
         return 'Unknown command. Try /pet-help';
     }
   }
-  
+
+  /**
+   * Parse and set custom stat from various input formats
+   * Supports:
+   * - "📊 45" → icon="📊", value=45
+   * - "45" → icon="📊" (default), value=45
+   * - "45%" → icon="📊" (default), value=45
+   * - "剩余配额: 45%" → extracts 45
+   * - "clear" → clears the custom stat
+   */
+  private static async setCustomStat(input: string): Promise<string> {
+    try {
+      // Handle clear command
+      if (input.toLowerCase() === 'clear') {
+        if (fs.existsSync(config.stateFile)) {
+          const stateData = fs.readFileSync(config.stateFile, 'utf-8');
+          const state = JSON.parse(stateData);
+          state.customStat = undefined;
+          fs.writeFileSync(config.stateFile, JSON.stringify(state, null, 2));
+        }
+        return 'Custom stat cleared.';
+      }
+
+      // Parse input to extract icon and value
+      const parsed = this.parseCustomStatInput(input);
+
+      if (!parsed) {
+        return 'Invalid format. Use: /pet-custom <icon> <value> or /pet-custom <value>';
+      }
+
+      const { icon, value } = parsed;
+
+      // Clamp value to valid range
+      const clampedValue = Math.max(0, Math.min(100, value));
+
+      // Update state file
+      if (fs.existsSync(config.stateFile)) {
+        const stateData = fs.readFileSync(config.stateFile, 'utf-8');
+        const state = JSON.parse(stateData);
+
+        state.customStat = {
+          icon,
+          value: clampedValue,
+          updatedAt: Date.now()
+        };
+
+        fs.writeFileSync(config.stateFile, JSON.stringify(state, null, 2));
+        return `Custom stat set: ${icon}${clampedValue}%`;
+      }
+
+      return 'Custom stat set (will appear on next update)';
+    } catch (error) {
+      return `Failed to set custom stat: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    }
+  }
+
+  /**
+   * Parse custom stat input with smart extraction
+   */
+  private static parseCustomStatInput(input: string): { icon: string; value: number } | null {
+    const trimmed = input.trim();
+
+    // Clear command
+    if (trimmed.toLowerCase() === 'clear') {
+      return null;
+    }
+
+    // First try: pure number (e.g., "45")
+    const pureNumberMatch = trimmed.match(/^-?\d+$/);
+    if (pureNumberMatch) {
+      const value = parseInt(pureNumberMatch[0], 10);
+      if (!isNaN(value)) {
+        return { icon: '📊', value };
+      }
+    }
+
+    // Second try: extract first number and any preceding emoji/symbol
+    // Match emoji/symbol followed by number (with optional separator)
+    const iconValueMatch = trimmed.match(/([\p{Emoji}\p{Symbol}]+)\s*(-?\d+)/u);
+    if (iconValueMatch) {
+      const icon = iconValueMatch[1];
+      const value = parseInt(iconValueMatch[2], 10);
+      if (!isNaN(value)) {
+        return { icon, value };
+      }
+    }
+
+    // Third try: extract first number from any text, use default icon
+    const numberMatch = trimmed.match(/(-?\d+)/);
+    if (numberMatch) {
+      const value = parseInt(numberMatch[1], 10);
+      if (!isNaN(value)) {
+        return { icon: '📊', value };
+      }
+    }
+
+    return null;
+  }
+
   private static async getStats(): Promise<string> {
     try {
       if (!fs.existsSync(config.stateFile)) {
@@ -256,12 +360,15 @@ ${suggestions.length > 0 ? '\n💡 Suggestions:\n' + suggestions.join('\n') : ''
     return `🐾 Claude Code Pet Commands 🐾
 
 🍼 CARE: /pet-pet, /pet-feed [food], /pet-play [toy], /pet-clean, /pet-sleep
-📊 INFO: /pet-status, /pet-stats, /pet-help  
-🎨 CUSTOM: /pet-name [name]
+📊 INFO: /pet-status, /pet-stats, /pet-help
+🎨 CUSTOM: /pet-name [name], /pet-custom [icon] <value>
 ⚙️ MANAGE: /pet-reset
 
 🍽️ FOODS: cookie, pizza, sushi, apple, carrot, steak, fish, candy
 🎮 TOYS: ball, frisbee, laser, yarn, puzzle
+
+📊 CUSTOM STAT: /pet-custom <icon> <value> | /pet-custom <value> | /pet-custom clear
+  Examples: /pet-custom 📊 45 | /pet-custom 67 | /pet-custom clear
 
 ⚠️ NEEDS ATTENTION: 🍖<30% (feed) ⚡<30% (sleep) 🧼<30% (clean)`;
   }

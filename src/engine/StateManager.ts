@@ -95,8 +95,14 @@ export interface PetState {
   thoughtHistory: string[];          // Recent thought history
   thoughtCategoryFatigue: Record<string, number>; // Fatigue for each category
   thoughtEscalation: Record<string, number>;      // Escalation tracking for needs
-  
-  
+
+  // Custom stat attribute (NEW)
+  customStat?: {
+    icon: string;                   // Emoji or symbol to display
+    value: number;                  // Percentage value (0-100)
+    updatedAt: number;              // When the stat was last updated
+  };
+
   // Evolution
   evolutionStage: number;
   careLevelPoints: number;
@@ -291,6 +297,11 @@ export class StateManager {
             this.state.feedbackHistory = [];
             this.state.lastTranscriptCheck = undefined;
             this.state.currentFeedback = undefined;
+          }
+
+          // Migrate custom stat field
+          if (this.state.customStat === undefined) {
+            this.state.customStat = undefined; // Optional field, no default
           }
         }
       } else {
