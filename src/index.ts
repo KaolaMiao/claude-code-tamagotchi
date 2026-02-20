@@ -104,7 +104,6 @@ async function main() {
     
     // Debug logging if enabled
     if (config.enableLogging && config.debugMode && config.logFile) {
-      const fs = await import('fs');
       const logEntry = {
         timestamp: new Date().toISOString(),
         input,

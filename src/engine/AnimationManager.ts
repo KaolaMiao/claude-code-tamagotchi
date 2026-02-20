@@ -1,4 +1,4 @@
-import { animations, Animation, getWeatherOverlay } from '../animations';
+import { animations, getWeatherOverlay } from '../animations';
 import { PetState } from './StateManager';
 import { config } from '../utils/config';
 

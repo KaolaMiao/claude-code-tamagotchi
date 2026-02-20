@@ -141,23 +141,6 @@ export class FeedbackSystem {
   }
   
   /**
-   * Gradually improve mood
-   */
-  private decayMood(state: PetState): void {
-    const moodProgression = {
-      'frustrated': 'annoyed',
-      'annoyed': 'concerned',
-      'concerned': 'normal',
-      'normal': 'happy'
-    };
-    
-    const nextMood = moodProgression[state.currentMood as keyof typeof moodProgression];
-    if (nextMood) {
-      state.currentMood = nextMood as any;
-    }
-  }
-  
-  /**
    * Apply feedback to state
    */
   private applyFeedback(state: PetState, feedback: Feedback): void {

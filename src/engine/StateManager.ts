@@ -26,7 +26,6 @@ export interface PetState {
   
   // Current state
   currentAnimation: string;
-  animationFrame: number;
   animationStartTime: number;
   isAsleep: boolean;
   isSick: boolean;
