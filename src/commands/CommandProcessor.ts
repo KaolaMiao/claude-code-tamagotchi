@@ -160,6 +160,11 @@ export class CommandProcessor {
         return this.getHelp();
 
       case 'pet-custom':
+        // Check if feature is enabled
+        if (!config.customStatEnabled) {
+          return 'Custom stat feature is disabled. Set PET_CUSTOM_STAT_ENABLED=true to enable.';
+        }
+
         if (parameter) {
           return await this.setCustomStat(parameter);
         }
@@ -183,12 +188,7 @@ export class CommandProcessor {
     try {
       // Handle clear command
       if (input.toLowerCase() === 'clear') {
-        if (fs.existsSync(config.stateFile)) {
-          const stateData = fs.readFileSync(config.stateFile, 'utf-8');
-          const state = JSON.parse(stateData);
-          state.customStat = undefined;
-          fs.writeFileSync(config.stateFile, JSON.stringify(state, null, 2));
-        }
+        await this.writeAction('clear-custom-stat');
         return 'Custom stat cleared.';
       }
 
@@ -204,22 +204,16 @@ export class CommandProcessor {
       // Clamp value to valid range
       const clampedValue = Math.max(0, Math.min(100, value));
 
-      // Update state file
-      if (fs.existsSync(config.stateFile)) {
-        const stateData = fs.readFileSync(config.stateFile, 'utf-8');
-        const state = JSON.parse(stateData);
-
-        state.customStat = {
-          icon,
-          value: clampedValue,
-          updatedAt: Date.now()
-        };
-
-        fs.writeFileSync(config.stateFile, JSON.stringify(state, null, 2));
-        return `Custom stat set: ${icon}${clampedValue}%`;
+      // Validate icon format (emoji or single symbol)
+      if (!this.isValidIcon(icon)) {
+        return `Invalid icon format: "${icon}". Use a single emoji or symbol (e.g., 📊, 🔋, 💾).`;
       }
 
-      return 'Custom stat set (will appear on next update)';
+      // Pass action to PetEngine via action file (avoids race condition)
+      const actionParam = JSON.stringify({ icon, value: clampedValue });
+      await this.writeAction('set-custom-stat', actionParam);
+
+      return `Custom stat set: ${icon}${clampedValue}%`;
     } catch (error) {
       return `Failed to set custom stat: ${error instanceof Error ? error.message : 'Unknown error'}`;
     }
@@ -266,6 +260,30 @@ export class CommandProcessor {
     }
 
     return null;
+  }
+
+  /**
+   * Validate icon format - should be a single emoji or symbol
+   */
+  private static isValidIcon(icon: string): boolean {
+    // Check length - should be reasonably short (1-4 chars for emoji)
+    if (icon.length === 0 || icon.length > 4) {
+      return false;
+    }
+
+    // Check if contains at least one emoji or symbol character
+    const emojiOrSymbolMatch = icon.match(/\p{Emoji}|\p{Symbol}/u);
+    if (!emojiOrSymbolMatch) {
+      return false;
+    }
+
+    // Check for invalid characters (letters, numbers, common punctuation)
+    const invalidCharMatch = icon.match(/[a-zA-Z0-9.,;:!?@#$%^&*()_+=\[\]{}|\\<>"'`~]/);
+    if (invalidCharMatch) {
+      return false;
+    }
+
+    return true;
   }
 
   private static async getStats(): Promise<string> {

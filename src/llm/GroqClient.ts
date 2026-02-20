@@ -209,8 +209,8 @@ Respond with JSON:
     projectContext?: string,
     petState?: any
   ): string {
-    // Get max history from env var, default to 200
-    const maxHistory = parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '200');
+    // Get max history from env var, default to 20
+    const maxHistory = parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '20'); 
     
     // Only limit for absurdly long sessions to prevent token overflow
     let fullContext: string;

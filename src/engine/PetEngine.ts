@@ -171,6 +171,14 @@ export class PetEngine {
       case 'trick':
         this.handleTrick(action.parameter);
         break;
+
+      case 'set-custom-stat':
+        this.handleSetCustomStat(action.parameter);
+        break;
+
+      case 'clear-custom-stat':
+        this.handleClearCustomStat();
+        break;
     }
   }
   
@@ -268,11 +276,45 @@ export class PetEngine {
   
   private handleTrick(trick?: string): void {
     if (!this.state || !trick) return;
-    
+
     if (!this.state.tricks.includes(trick)) {
       this.state.tricks.push(trick);
       this.animationManager.setAnimation(this.state, 'celebrating');
     }
+  }
+
+  private handleSetCustomStat(parameter?: string): void {
+    if (!this.state || !parameter) return;
+
+    try {
+      const data = JSON.parse(parameter);
+
+      // Validate structure
+      if (typeof data.icon !== 'string' || typeof data.value !== 'number') {
+        if (config.debugMode) {
+          console.error('Invalid custom stat data structure:', data);
+        }
+        return;
+      }
+
+      // Clamp value between 0 and 100
+      const clampedValue = Math.max(0, Math.min(100, Math.round(data.value)));
+
+      this.state.customStat = {
+        icon: data.icon,
+        value: clampedValue,
+        updatedAt: Date.now()
+      };
+    } catch (error) {
+      if (config.debugMode) {
+        console.error('Failed to parse custom stat parameter:', error);
+      }
+    }
+  }
+
+  private handleClearCustomStat(): void {
+    if (!this.state) return;
+    this.state.customStat = undefined;
   }
   
   // Process input for keyword detection
@@ -442,10 +484,24 @@ export class PetEngine {
   private isValidCustomStat(): boolean {
     if (!this.state?.customStat) return false;
 
-    const { updatedAt } = this.state.customStat;
-    const age = Date.now() - updatedAt;
+    const customStat = this.state.customStat;
+
+    // Validate structure
+    if (
+      typeof customStat !== 'object' ||
+      typeof customStat.icon !== 'string' ||
+      typeof customStat.value !== 'number' ||
+      typeof customStat.updatedAt !== 'number'
+    ) {
+      if (config.debugMode) {
+        console.error('Invalid custom stat structure:', customStat);
+      }
+      this.state.customStat = undefined;
+      return false;
+    }
 
     // Check if expired
+    const age = Date.now() - customStat.updatedAt;
     if (age > config.customStatExpiryMs) {
       this.state.customStat = undefined; // Clear expired stat
       return false;
