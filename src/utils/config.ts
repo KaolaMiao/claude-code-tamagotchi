@@ -145,13 +145,13 @@ export const config: Config = {
   showComplianceScore: process.env.PET_SHOW_COMPLIANCE_SCORE === 'true',
   feedbackMaxHistory: parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '200'),
 
-  // Custom stat attribute
-  customStatEnabled: process.env.PET_CUSTOM_STAT_ENABLED === 'true',
+  // Custom stat attribute (enabled by default)
+  customStatEnabled: process.env.PET_CUSTOM_STAT_ENABLED !== 'false', // Default: true
   customStatExpiryMs: parseInt(process.env.PET_CUSTOM_STAT_EXPIRY_MS || '300000'), // 5 minutes default
 
-  // Usage query integration
-  usageQueryEnabled: process.env.PET_USAGE_QUERY_ENABLED === 'true',
-  usageQueryInterval: parseInt(process.env.PET_USAGE_QUERY_INTERVAL || '60'), // Check every 60 updates (~3 minutes)
+  // Usage query integration (enabled by default)
+  usageQueryEnabled: process.env.PET_USAGE_QUERY_ENABLED !== 'false', // Default: true
+  usageQueryInterval: parseInt(process.env.PET_USAGE_QUERY_INTERVAL || '30'), // Check every 30 updates (~1.5 minutes)
   usageQueryIcon: process.env.PET_USAGE_QUERY_ICON || '🔋',
 
   // Paths
