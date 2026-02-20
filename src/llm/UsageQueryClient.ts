@@ -90,8 +90,10 @@ export class UsageQueryClient {
             const tokenLimit = limits.find((item: any) => item.type === 'TOKENS_LIMIT');
 
             if (tokenLimit && typeof tokenLimit.percentage === 'number') {
+              // Convert usage to remaining percentage (100% - usage%)
+              const remainingPercentage = Math.round(100 - tokenLimit.percentage);
               resolve({
-                tokenPercentage: Math.round(tokenLimit.percentage),
+                tokenPercentage: remainingPercentage,
                 platform: this.platform,
                 timestamp: Date.now()
               });
