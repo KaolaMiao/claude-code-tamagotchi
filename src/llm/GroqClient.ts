@@ -171,7 +171,7 @@ Respond with JSON:
         messages: [
           {
             role: 'system',
-            content: 'You are analyzing Claude Code behavior. Respond with JSON only.'
+            content: 'You are analyzing Claude Code behavior. Respond with JSON only. IMPORTANT: All text fields (funny_observation, summary, intent) MUST be in Simplified Chinese.'
           },
           {
             role: 'user',
@@ -617,9 +617,9 @@ Respond with JSON in this exact format:
   "efficiency_score": [0-10],
   "feedback_type": "[good|none|overstepping|verbose|inefficient]",
   "severity": "[good|annoying|problematic]",
-  "funny_observation": "[Witty reaction about what Claude did, max 20 words]",
-  "summary": "[What Claude did in context of the workflow, 50 words]",
-  "intent": "[User's goal]",
+  "funny_observation": "[针对 Claude 操作的幽默观察或吐槽，必须使用简体中文，字数在 20 字以内]",
+  "summary": "[Claude 在工作流背景下所做的简要总结，使用中文]",
+  "intent": "[用户的目标，使用中文]",
   "current_phase": "[exploration|planning|implementation|explanation|verification]",
   "violation_check": {
     "violation_detected": true/false,

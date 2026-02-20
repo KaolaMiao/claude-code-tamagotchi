@@ -1,19 +1,19 @@
 import { PetState } from '../StateManager';
 
 export class NeedThoughts {
-  // Get thought based on need levels with escalation
+  // 根据需求等级获取想法（带升级机制）
   static getThought(state: PetState, escalationLevel: number = 1): string {
-    // Check which need is lowest
+    // 检查哪个需求最低
     const needs = {
       hunger: state.hunger,
       energy: state.energy,
       cleanliness: state.cleanliness,
       happiness: state.happiness
     };
-    
-    const lowestNeed = Object.entries(needs).reduce((min, [key, value]) => 
+
+    const lowestNeed = Object.entries(needs).reduce((min, [key, value]) =>
       value < min.value ? {key, value} : min, {key: 'hunger', value: 100});
-    
+
     switch (lowestNeed.key) {
       case 'hunger':
         return this.getHungerThought(lowestNeed.value, escalationLevel);
@@ -24,294 +24,294 @@ export class NeedThoughts {
       case 'happiness':
         return this.getHappinessThought(lowestNeed.value, escalationLevel);
       default:
-        return "I'm feeling pretty good! 😊";
+        return "我感觉很不错！😊";
     }
   }
-  
+
   static getHungerThought(level: number, escalation: number): string {
-    // 80-100%: Content
+    // 80-100%: 满足
     if (level >= 80) {
       const thoughts = [
-        "That last meal was perfect! 😋",
-        "Still feeling full and happy!",
-        "My belly is satisfied~",
-        "No hunger here! 🍽️"
+        "上一顿饭太完美了！😋",
+        "还是感觉饱饱的、很开心！",
+        "我的小肚肚很满足~",
+        "一点都不饿！🍽️"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 50-79%: Peckish
+
+    // 50-79%: 有点饿
     if (level >= 50) {
       const thoughts = [
-        "I could go for a snack... 🍪",
-        "Is it dinner time yet? 🕐",
-        "Something smells good... oh wait, that's just my imagination",
-        "A little nibble would be nice",
-        "Thinking about food again..."
+        "我想吃点零食... 🍪",
+        "到晚饭时间了吗？🕐",
+        "有什么好闻的味道... 等等，那是我的想象",
+        "吃一小口就好了",
+        "又在想吃的了..."
       ];
-      
+
       if (escalation > 2) {
-        return "I've been hinting about food for a while now... 👀";
+        return "我已经暗示饿了很久了... 👀";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 30-49%: Getting hungry
+
+    // 30-49%: 变饿了
     if (level >= 30) {
       const thoughts = [
-        "I wish I had something to bite... 🥺",
-        "My tummy's making weird noises",
-        "*stares at you while you code* 👁️👁️",
-        "Remember when we had that cookie? Good times...",
-        "Getting pretty hungry here...",
-        "Food would be really nice right about now"
+        "好想有点东西可以咬... 🥺",
+        "我的肚子在发出奇怪的声音",
+        "*盯着你写代码* 👁️👁️",
+        "还记得我们吃那块饼干的时候吗？美好的时光...",
+        "真的有点饿了...",
+        "现在来点吃的就好了"
       ];
-      
+
       if (escalation > 2) {
-        return "FEED. ME. PLEASE. 🍖";
+        return "喂. 我. 求. 你. 🍖";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 10-29%: VERY hungry
+
+    // 10-29%: 非常饿
     if (level >= 10) {
       const thoughts = [
-        "My tummy goes hurt hurt! 😢",
-        "I can't think about code, only food",
-        "Is that... is that food? No? Okay... 😭",
-        "SOS: Send One Snack",
-        "I'm fading away from hunger...",
-        "This is what starvation feels like"
+        "我的肚子好痛好痛！😢",
+        "我没法思考代码，只想吃",
+        "那个... 那是食物吗？不是？好吧... 😭",
+        "SOS：送点零食来",
+        "我快饿晕了...",
+        "这就是饿的感觉"
       ];
-      
+
       if (escalation > 2) {
-        return "I see you have time to code but not to feed me... 😤";
+        return "我看你有时间写代码却没时间喂我... 😤";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 0-9%: STARVING
+
+    // 0-9%: 饿死了
     const criticalThoughts = [
-      "I'm wasting away!!! 💀",
-      "Tell my mother I loved her...",
-      "I'm so hungry I could eat a bug... wait, not THAT kind of bug!",
-      "This is it. This is how I perish. From hunger.",
-      "ERROR: Food.exe not found",
-      "I've forgotten what food tastes like..."
+      "我要饿死啦！！！💀",
+      "告诉我妈妈我爱她...",
+      "我饿得能吃bug... 等等，不是那种bug！",
+      "就这样吧。我就这样饿死了。",
+      "错误：Food.exe 未找到",
+      "我已经忘记食物是什么味道了..."
     ];
-    
+
     if (escalation > 3) {
-      return "THIS IS MY FINAL HUNGER WARNING ⚠️🍖⚠️";
+      return "这是我最后一次饥饿警告 ⚠️🍖⚠️";
     }
     return criticalThoughts[Math.floor(Math.random() * criticalThoughts.length)];
   }
-  
+
   static getEnergyThought(level: number, escalation: number): string {
-    // 80-100%: Energetic
+    // 80-100%: 精力充沛
     if (level >= 80) {
       const thoughts = [
-        "I could run a marathon! 🏃",
-        "Let's code ALL THE THINGS! 💪",
-        "Energy levels: MAXIMUM! ⚡",
-        "I feel like I could debug forever!"
+        "我能跑马拉松！🏃",
+        "让我们写所有代码！💪",
+        "能量等级：最大！⚡",
+        "我感觉能永远调试下去！"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 50-79%: Normal energy
+
+    // 50-79%: 能量正常
     if (level >= 50) {
       const thoughts = [
-        "Feeling pretty good! 😊",
-        "Ready for whatever!",
-        "Got enough energy for more coding",
-        "Steady as she goes~"
+        "感觉不错！😊",
+        "准备好迎接任何挑战！",
+        "有足够的能量继续写代码",
+        "稳扎稳打~"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 30-49%: Getting tired
+
+    // 30-49%: 变累了
     if (level >= 30) {
       const thoughts = [
-        "*yaaaawn* Sorry, what were we doing? 🥱",
-        "My eyelids feel heavy...",
-        "Just need a quick power nap...",
-        "Getting a bit sleepy here",
-        "Coffee would be nice... ☕"
+        "*哈欠* 抱歉，我们在干什么来着？🥱",
+        "我的眼皮好重...",
+        "只需要快速充个电...",
+        "有点困了",
+        "来杯咖啡就好了... ☕"
       ];
-      
+
       if (escalation > 2) {
-        return "I've been tired for so long... when's nap time? 😴";
+        return "我都困这么久了... 啥时候能午睡？😴";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 10-29%: Exhausted
+
+    // 10-29%: 精疲力竭
     if (level >= 10) {
       const thoughts = [
-        "Running on fumes here... 😵",
-        "I'm seeing double... no wait, that's just your duplicate code",
-        "Zzz... huh? I'm awake! 😪",
-        "Can barely keep my eyes open",
-        "System running on emergency power"
+        "在这里靠空燃运行... 😵",
+        "我看东西都重影了... 不等等，那是你的重复代码",
+        "Zzz... 啥？我醒了！😪",
+        "眼睛都快睁不开了",
+        "系统正在使用备用电源"
       ];
-      
+
       if (escalation > 2) {
-        return "MUST. SLEEP. NOW. 💤";
+        return "必. 须. 睡. 觉. 现. 在. 💤";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 0-9%: About to collapse
+
+    // 0-9%: 快要倒下
     const criticalThoughts = [
-      "I'm literally falling asleep standing... 😴",
-      "ERROR: Energy.exe has stopped responding",
-      "Must... stay... awa-- *snore*",
-      "Systems shutting down...",
-      "This is beyond tired, this is exhausted"
+      "我真的站着睡着了... 😴",
+      "错误：Energy.exe 已停止响应",
+      "必须... 保持... 清醒-- *呼噜*",
+      "系统正在关闭...",
+      "这不仅仅是累，这是耗尽"
     ];
-    
+
     if (escalation > 3) {
-      return "EMERGENCY NAP REQUIRED! 🚨😴🚨";
+      return "紧急午睡需要！🚨😴🚨";
     }
     return criticalThoughts[Math.floor(Math.random() * criticalThoughts.length)];
   }
-  
+
   static getCleanlinessThought(level: number, escalation: number): string {
-    // 80-100%: Fresh and clean
+    // 80-100%: 新鲜干净
     if (level >= 80) {
       const thoughts = [
-        "I'm sparkling! ✨",
-        "Still smell like soap! 🧼",
-        "So fresh and so clean!",
-        "Squeaky clean and loving it!"
+        "我闪闪发光！✨",
+        "还有肥皂的味道！🧼",
+        "真清爽真干净！",
+        "干干净净好开心！"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 50-79%: Getting dusty
+
+    // 50-79%: 开始有点灰尘
     if (level >= 50) {
       const thoughts = [
-        "Feeling a bit dusty... 🌪️",
-        "Is that a smudge on me?",
-        "Could use a little freshening up",
-        "Not dirty, just... lived in"
+        "感觉有点灰... 🌪️",
+        "那是什么污渍？",
+        "可以稍微清理一下",
+        "不脏，只是... 有人住过的样子"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 30-49%: Noticeably dirty
+
+    // 30-49%: 明显脏了
     if (level >= 30) {
       const thoughts = [
-        "I'm a stinky boy! 😅",
-        "Something smells... oh, it's me",
-        "Bath time maybe? Asking for a friend...",
-        "Getting pretty grimy here",
-        "I've been cleaner..."
+        "我是个臭臭的小东西！😅",
+        "有什么味道... 哦，是我",
+        "洗个澡怎么样？帮朋友问的...",
+        "变得有点脏了",
+        "我以前更干净..."
       ];
-      
+
       if (escalation > 2) {
-        return "Seriously, I need a bath! 🛁";
+        return "说真的，我需要洗澡！🛁";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 10-29%: VERY dirty
+
+    // 10-29%: 非常脏
     if (level >= 10) {
       const thoughts = [
-        "I'm basically a dirt monster now 👹",
-        "Can't... see... through... the grime...",
-        "Even I don't want to smell me",
-        "This is embarrassing levels of dirty",
-        "I'm growing my own ecosystem"
+        "我现在基本是个脏怪物 👹",
+        "看... 不... 清... 污垢...",
+        "连我都不想闻自己",
+        "这脏得让人尴尬",
+        "我在养自己的生态系统"
       ];
-      
+
       if (escalation > 2) {
-        return "PLEASE GIVE ME A BATH! 🚿";
+        return "请给我洗个澡！🚿";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 0-9%: FILTHY
+
+    // 0-9%: 脏死了
     const criticalThoughts = [
-      "I've become one with the dirt 🦠",
-      "Health hazard warning! ☣️",
-      "New life forms growing on me...",
-      "This is biohazard level dirty",
-      "I'm more dirt than pet at this point"
+      "我已经和灰尘融为一体 🦠",
+      "健康危害警告！☣️",
+      "新的生命形式在我身上生长...",
+      "这是生物危害级别的脏",
+      "我现在的脏比宠物多"
     ];
-    
+
     if (escalation > 3) {
-      return "EMERGENCY BATH NEEDED! 🚨🛁🚨";
+      return "紧急洗澡需要！🚨🛁🚨";
     }
     return criticalThoughts[Math.floor(Math.random() * criticalThoughts.length)];
   }
-  
+
   static getHappinessThought(level: number, escalation: number): string {
-    // 80-100%: Very happy
+    // 80-100%: 非常开心
     if (level >= 80) {
       const thoughts = [
-        "Life is good! 😊",
-        "I love coding with you! ❤️",
-        "Feeling blessed and happy!",
-        "This is the best day ever!"
+        "生活真美好！😊",
+        "我喜欢和你一起写代码！❤️",
+        "感到被祝福和快乐！",
+        "这是最棒的一天！"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 50-79%: Content
+
+    // 50-79%: 满足
     if (level >= 50) {
       const thoughts = [
-        "This is nice 🙂",
-        "Another day, another line of code",
-        "Feeling pretty okay",
-        "Content with life"
+        "这挺好的 🙂",
+        "又一天，又一行代码",
+        "感觉还不错",
+        "对生活很满意"
       ];
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 30-49%: Getting sad/bored
+
+    // 30-49%: 变得难过/无聊
     if (level >= 30) {
       const thoughts = [
-        "I'm sure missing my frisbee... 🥏",
-        "Remember when we used to play?",
-        "Feeling a bit lonely... 😔",
-        "*sighs dramatically*",
-        "Could use some cheering up"
+        "我很想念我的飞盘... 🥏",
+        "还记得我们以前玩的时候吗？",
+        "感觉有点孤独... 😔",
+        "*深深叹气*",
+        "需要一点开心的事情"
       ];
-      
+
       if (escalation > 2) {
-        return "I've been sad for a while now... 😢";
+        return "我都难过好久了... 😢";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 10-29%: Very sad
+
+    // 10-29%: 非常难过
     if (level >= 10) {
       const thoughts = [
-        "Nobody loves me... 😢",
-        "What's the point of it all?",
-        "I'll just sit here... alone... coding...",
-        "Forgotten and unloved",
-        "Is this what loneliness feels like?"
+        "没人爱我... 😢",
+        "这一切有什么意义？",
+        "我就坐在这里... 孤独地... 写代码...",
+        "被遗忘和不被爱",
+        "这就是孤独的感觉吗？"
       ];
-      
+
       if (escalation > 2) {
-        return "Please... just pet me or something... 🥺";
+        return "请... 摸摸我或者做点什么... 🥺";
       }
       return thoughts[Math.floor(Math.random() * thoughts.length)];
     }
-    
-    // 0-9%: Depressed
+
+    // 0-9%: 抑郁
     const criticalThoughts = [
       "...",
-      "*doesn't even want to talk*",
-      "Even the bugs feel bad for me",
-      "This is rock bottom emotionally",
-      "I've given up on happiness"
+      "*甚至不想说话*",
+      "连bug都为我难过",
+      "这是情绪的谷底",
+      "我已经放弃快乐了"
     ];
-    
+
     if (escalation > 3) {
-      return "NEED LOVE NOW! 💔😭💔";
+      return "现在需要爱！💔😭💔";
     }
     return criticalThoughts[Math.floor(Math.random() * criticalThoughts.length)];
   }

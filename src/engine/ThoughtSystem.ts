@@ -293,11 +293,11 @@ export class ThoughtSystem {
   
   private getFallbackThought(state: PetState): string {
     const fallbacks = [
-      "Just thinking... 💭",
-      "Hi there! 👋",
-      "How's the coding going? 💻",
-      "I'm here for you! 🤗",
-      "*stares at code* 👀"
+      "只是在想... 💭",
+      "你好呀！👋",
+      "编程进展如何？💻",
+      "我在这里陪你！🤗",
+      "*盯着代码* 👀"
     ];
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }

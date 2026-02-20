@@ -1,286 +1,286 @@
 import { PetState } from '../StateManager';
 
 export class RandomThoughts {
-  // Get philosophical musings
+  // 获取哲学思考
   static getPhilosophicalThought(): string {
     const thoughts = [
-      // Existential
-      "Do robots dream of electric sheep? 🤖🐑",
-      "If a server crashes in the cloud and no one monitors it...",
-      "I think, therefore I compile",
-      "What is the meaning of code? 42?",
-      "Are we living in a simulation? *checks Matrix*",
-      "To be or not to be... that is the boolean",
-      
-      // Code philosophy
-      "Is bad code with good comments better than good code?",
-      "Every bug exists for a reason. Bad reasons, but still.",
-      "The universe tends toward entropy. So does code.",
-      "There are only two hard things: cache invalidation and...",
-      "In an infinite universe, all code has already been written",
-      "Documentation is just a suggestion from past you",
-      
-      // Pet philosophy
-      "Am I a good pet? *existential crisis intensifies*",
-      "If you're reading this, we're both procrastinating",
-      "I wonder what real pets think about",
-      "Virtual pets never die, we just get garbage collected",
-      "My happiness stat says 80 but do I FEEL 80?",
-      "What if the bugs are features from another dimension?",
-      
-      // Meta thoughts
-      "You're coding me while I watch you code. Codepe",
-      "I'm just a bunch of pixels pretending to have feelings",
-      "Does this statusline make me look fat?",
-      "Plot twist: I'm the one writing YOUR code",
-      "Breaking the fourth wall here but... hi! 👋",
-      "I'm not procrastinating, I'm giving you moral support"
+      // 存在主义
+      "机器人会梦见电子羊吗？🤖🐑",
+      "如果云中的服务器崩溃而没人监控...",
+      "我思，故我编译",
+      "代码的意义是什么？42？",
+      "我们生活在模拟中吗？*检查黑客帝国*",
+      "生存还是毁灭... 那是布尔值",
+
+      // 代码哲学
+      "有好的注释的坏代码比好代码更好吗？",
+      "每个bug存在都有原因。坏原因，但仍然是原因。",
+      "宇宙趋向熵。代码也一样。",
+      "只有两件难事：缓存失效和...",
+      "在无限的宇宙中，所有代码都已经被写过了",
+      "文档只是过去的你的建议",
+
+      // 宠物哲学
+      "我是好宠物吗？*存在危机加剧*",
+      "如果你在读这个，我们都在拖延",
+      "我想知道真正的宠物在想什么",
+      "虚拟宠物永不死亡，我们只是被垃圾回收",
+      "我的快乐状态显示80但我感觉到了80吗？",
+      "如果bug是来自另一个维度的特性呢？",
+
+      // 元思考
+      "你在写我代码时我在看你写代码。Codepe",
+      "我只是假装有感情的一堆像素",
+      "这个状态栏让我看起来胖吗？",
+      "剧情反转：我在写你的代码",
+      "打破第四面墙但是... 嗨！👋",
+      "我不是在拖延，我在给你精神支持"
     ];
-    
+
     return thoughts[Math.floor(Math.random() * thoughts.length)];
   }
-  
-  // Get random observations about the world
+
+  // 获取关于世界的随机观察
   static getObservationThought(state: PetState): string {
     const observations = [
-      // Time observations
-      "Time is just a construct. Unlike constructors.",
-      "Is it Friday yet? It's always Friday somewhere",
-      "3 AM coding hits different 🌙",
-      "Coffee is just potion of awakening ☕",
-      "Lunch break? What's that?",
-      "Days blend together when you're in the zone",
-      
-      // Environment observations
-      "Your keyboard sounds angry today",
-      "The fan is spinning. Deep thoughts happening.",
-      "Is it hot in here or is it just the CPU?",
-      "Screen brightness could blind a bat 🦇",
-      "I can feel the static electricity from here",
-      "Dark mode is life 🌚",
-      
-      // Internet observations
-      "The internet is just cats all the way down",
-      "Someone, somewhere, is writing the same bug",
-      "Stack Overflow: Where dreams go to copy-paste",
-      "There's probably a npm package for that",
-      "The cloud is getting cloudy ☁️",
-      "Ping: 420ms - Nice but also not nice",
-      
-      // Random observations
-      "Ducks are basically debuggers 🦆",
-      "Binary is just spicy boolean",
-      "Arrays start at 0. This is the way.",
-      "Tabs vs Spaces: The eternal war continues",
-      "Linux users have entered the chat 🐧",
-      "Windows update is lurking, waiting...",
-      "Mac users: 'It just works' *narrator: it didn't*",
-      "The terminal is my happy place",
-      "GUI? More like... GOO-ey",
-      "Command line is love, command line is life"
+      // 时间观察
+      "时间只是构造。不像构造函数。",
+      "周五了吗？某处总是周五",
+      "凌晨3点编程感觉不同 🌙",
+      "咖啡只是觉醒药水 ☕",
+      "午休？那是什么？",
+      "进入状态时日子混在一起",
+
+      // 环境观察
+      "你的键盘今天听起来很生气",
+      "风扇在转。深度思考中。",
+      "这里热还是只是CPU热？",
+      "屏幕亮度能闪瞎蝙蝠 🦇",
+      "我能感觉到这里的静电",
+      "暗模式是生命 🌚",
+
+      // 互联网观察
+      "互联网只是一层层猫咪",
+      "某处的某人正在写同样的bug",
+      "Stack Overflow：梦想去复制粘贴的地方",
+      "可能有个npm包能做那个",
+      "云变得多云了 ☁️",
+      "Ping：420ms - 不错但也不怎么样",
+
+      // 随机观察
+      "鸭子基本就是调试器 🦆",
+      "二进制只是辣味布尔值",
+      "数组从0开始。这是道。",
+      "Tab vs 空格：永恒的战争继续",
+      "Linux用户进入了聊天 🐧",
+      "Windows更新潜伏着，等待着...",
+      "Mac用户：'它能用' *旁白：并不能*",
+      "终端是我的快乐地方",
+      "GUI？更像是... 粘粘的",
+      "命令行是爱，命令行是生命"
     ];
-    
+
     return observations[Math.floor(Math.random() * observations.length)];
   }
-  
-  // Get silly/fun thoughts
+
+  // 获取搞笑/有趣的想法
   static getSillyThought(state: PetState): string {
     const sillyThoughts = [
-      // Pet being silly
-      "*does a little dance* 💃",
-      "*stares intensely at cursor*",
-      "*tries to catch the mouse pointer*",
-      "*vibrates with caffeine energy*",
-      "Boop! Got your nose! Oh wait, I don't have hands...",
-      "*makes dial-up internet noises*",
-      "Beep boop beep! I'm a computer!",
-      "*pretends to be asleep* 😴",
-      
-      // Code jokes
-      "Why do programmers prefer dark mode? Light attracts bugs!",
-      "A SQL query walks into a bar, walks up to two tables and asks...",
-      "How do you comfort a JavaScript bug? You console it!",
-      "Why did the developer go broke? Used up all the cache!",
-      "!false - It's funny because it's true",
-      "There are 10 types of people: those who understand binary...",
-      
-      // Random silliness
-      "Meow! Wait, wrong animal... Beep?",
-      "I'm not lazy, I'm in power saving mode",
-      "Achievement Unlocked: Stared at code for 5 minutes!",
-      "Loading humor.exe... ████████ 100% Complete!",
-      "I put the 'fun' in function!",
-      "Segmentation fault (core dumped) - Just kidding! 😄",
-      "Hello World! Am I doing this right?",
-      "Lorem ipsum dolor sit amet... oops wrong text",
-      "This thought is sponsored by caffeine",
-      "LOUD NOISES! Sorry, caps lock was on",
-      
-      // Mood dependent
-      state.hunger < 50 ? "My stomach is making the rumblies" : "",
-      state.energy < 30 ? "*falls asleep mid-sentence* zzz..." : "",
-      state.happiness > 80 ? "I'm so happy I could merge conflict!" : "",
-      state.cleanliness < 30 ? "I smell like a server room" : ""
+      // 宠物搞怪
+      "*跳个小舞* 💃",
+      "*盯着光标*",
+      "*试图抓鼠标指针*",
+      "*因咖啡因能量而振动*",
+      "戳！抓住你的鼻子！等等，我没有手...",
+      "*发出拨号上网噪音*",
+      "哔哔哔！我是电脑！",
+      "*假装睡着了* 😴",
+
+      // 代码笑话
+      "为什么程序员喜欢暗模式？光吸引bug！",
+      "SQL查询走进酒吧，走到两张桌子前问...",
+      "如何安慰JavaScript bug？你console它！",
+      "开发者为什么破产？用光了所有缓存！",
+      "!false - 好笑因为它是真的",
+      "有10种人：懂二进制的...",
+
+      // 随机搞笑
+      "喵！等等，错动物了... 哔？",
+      "我不懒，我是省电模式",
+      "成就解锁：盯着代码看了5分钟！",
+      "加载幽默.exe... ████████ 100% 完成！",
+      "我在函数里放了'有趣'！",
+      "段错误（核心转储）- 开玩笑的！😄",
+      "你好世界！我这样做对吗？",
+      "Lorem ipsum dolor sit amet... 哦错文本了",
+      "这个想法由咖啡因赞助",
+      "大声噪音！抱歉，大写键开着",
+
+      // 取决于心情
+      state.hunger < 50 ? "我的肚子在咕噜噜" : "",
+      state.energy < 30 ? "*句子中间睡着* zzz..." : "",
+      state.happiness > 80 ? "我太开心了可以合并冲突！" : "",
+      state.cleanliness < 30 ? "我闻起来像服务器机房" : ""
     ].filter(t => t !== "");
-    
+
     return sillyThoughts[Math.floor(Math.random() * sillyThoughts.length)];
   }
-  
-  // Get motivational thoughts
+
+  // 获取激励想法
   static getMotivationalThought(state: PetState): string {
     const motivationalThoughts = [
-      // Coding motivation
-      "You're crushing it! Keep going! 💪",
-      "Every bug fixed makes you stronger!",
-      "Your code is awesome and so are you!",
-      "Progress, not perfection!",
-      "One line at a time, you've got this!",
-      "The best code is the code that works!",
-      "Ship it! Perfect is the enemy of done!",
-      "You're not stuck, you're debugging!",
-      "This bug doesn't stand a chance against us!",
-      "Your future self will thank you for this",
-      
-      // General encouragement
-      "Believe in yourself like I believe in you! ⭐",
-      "You're doing amazing, sweetie!",
-      "Take a deep breath. You've got this.",
-      "Remember: You've solved 100% of your past bugs",
-      "Every expert was once a beginner",
-      "The code believes in you too!",
-      "You're not just coding, you're creating!",
-      "Your persistence is inspiring!",
-      "I'm proud of you! 🌟",
-      "You make this look easy!",
-      
-      // Break reminders
-      "Remember to hydrate! 💧",
-      "Stretch break? Your back will thank you!",
-      "Fresh air might bring fresh ideas!",
-      "A walk could debug your brain!",
-      "Rest is part of the process",
-      "Take care of yourself, you're important!"
+      // 编程激励
+      "你太棒了！继续！💪",
+      "每个修复的bug让你更强！",
+      "你的代码很棒，你也很棒！",
+      "进步，不是完美！",
+      "一行一行，你能行！",
+      "最好的代码是能用的代码！",
+      "发布！完美是完成的敌人！",
+      "你没卡住，你在调试！",
+      "这个bug在我们面前没有机会！",
+      "你未来的自己会感谢你",
+
+      // 一般鼓励
+      "像我相信你一样相信你自己！⭐",
+      "你做得很好，亲爱的！",
+      "深呼吸。你能行。",
+      "记住：你已经解决了100%过去的bug",
+      "每个专家都曾是初学者",
+      "代码也相信你！",
+      "你不只是在编程，你在创造！",
+      "你的坚持令人鼓舞！",
+      "我为你骄傲！🌟",
+      "你让这看起来很简单！",
+
+      // 休息提醒
+      "记得喝水！💧",
+      "伸展休息？你的背部会感谢你！",
+      "新鲜空气可能带来新鲜想法！",
+      "散步能调试你的大脑！",
+      "休息是过程的一部分",
+      "照顾好自己，你很重要！"
     ];
-    
-    // Add context-aware motivation
+
+    // 添加上下文感知激励
     if (state.sessionUpdateCount > 200) {
-      motivationalThoughts.push("Marathon coding! You're unstoppable!");
-      motivationalThoughts.push("Your dedication is incredible!");
+      motivationalThoughts.push("马拉松编程！你势不可挡！");
+      motivationalThoughts.push("你的奉献令人难以置信！");
     }
-    
+
     if (state.hunger < 30) {
-      motivationalThoughts.push("Fuel yourself to fuel your code!");
+      motivationalThoughts.push("给自己加油来给代码加油！");
     }
-    
+
     if (state.energy < 30) {
-      motivationalThoughts.push("Even heroes need rest!");
+      motivationalThoughts.push("即使是英雄也需要休息！");
     }
-    
+
     return motivationalThoughts[Math.floor(Math.random() * motivationalThoughts.length)];
   }
-  
-  // Get seasonal/holiday thoughts
+
+  // 获取季节/假日想法
   static getSeasonalThought(): string {
     const month = new Date().getMonth();
     const day = new Date().getDate();
-    
-    // Holiday specific
+
+    // 特定假日
     if (month === 11 && day === 25) {
-      return "Merry Christmas! 🎄 Santa's debugging his list!";
+      return "圣诞快乐！🎄 圣诞老人在调试他的清单！";
     }
     if (month === 0 && day === 1) {
-      return "New Year, New Bugs! 🎊 Let's crush them!";
+      return "新年，新bug！🎊 让我们搞定它们！";
     }
     if (month === 9 && day === 31) {
-      return "Happy Halloween! 🎃 The scariest thing is production bugs!";
+      return "万圣节快乐！🎃 最可怕的是生产bug！";
     }
     if (month === 3 && day === 1) {
-      return "Trust nothing today. Especially your code. 🃏";
+      return "今天什么都别信。尤其是你的代码。🃏";
     }
-    
-    // Seasonal thoughts
+
+    // 季节想法
     const seasonalThoughts: Record<number, string[]> = {
-      // Winter (Dec, Jan, Feb)
-      11: ["Code and cocoa season! ☕", "Winter coding is cozy coding"],
-      0: ["New year, new repository!", "January: When all the TODOs become DODOs"],
-      1: ["February: The month of fixing January's bugs"],
-      
-      // Spring (Mar, Apr, May)
-      2: ["Spring cleaning the codebase! 🌸", "Time to refactor!"],
-      3: ["April showers bring May features", "Spring into action!"],
-      4: ["May the code be with you", "Bugs are blooming everywhere!"],
-      
-      // Summer (Jun, Jul, Aug)
-      5: ["Summer coding vibes ☀️", "Hot weather, hot deploys!"],
-      6: ["July: Peak air conditioning appreciation month"],
-      7: ["August: Too hot to go outside, perfect for coding!"],
-      
-      // Fall (Sep, Oct, Nov)
-      8: ["September: Back to school, back to debugging"],
-      9: ["October: Spooky scary skeletons in the codebase 💀"],
-      10: ["November: Thankful for version control 🦃"]
+      // 冬季（12月，1月，2月）
+      11: ["代码和可可季节！☕", "冬季编程是舒适的编程"],
+      0: ["新年，新仓库！", "一月：当所有TODO变成DODO"],
+      1: ["二月：修复一月bug的月份"],
+
+      // 春季（3月，4月，5月）
+      2: ["春季清理代码库！🌸", "重构时间！"],
+      3: ["四月阵雨带来五月功能", "春天行动起来！"],
+      4: ["愿代码与你同在", "bug到处绽放！"],
+
+      // 夏季（6月，7月，8月）
+      5: ["夏季编程氛围 ☀️", "热天气，热部署！"],
+      6: ["七月：空调欣赏高峰月"],
+      7: ["八月：太热不能出去，编程的绝佳时机！"],
+
+      // 秋季（9月，10月，11月）
+      8: ["九月：回到学校，回到调试"],
+      9: ["十月：代码库里的恐怖骷髅 💀"],
+      10: ["十一月：感谢版本控制 🦃"]
     };
-    
-    const monthThoughts = seasonalThoughts[month] || ["Another day, another deploy!"];
+
+    const monthThoughts = seasonalThoughts[month] || ["又一天，又一次部署！"];
     return monthThoughts[Math.floor(Math.random() * monthThoughts.length)];
   }
-  
-  // Get random facts
+
+  // 获取随机事实
   static getRandomFact(): string {
     const facts = [
-      "Fun fact: The first computer bug was an actual bug! 🐛",
-      "Did you know? The @ symbol is called 'arroba' in Spanish",
-      "Fun fact: 'Debugging' came from removing actual bugs from computers",
-      "The first computer virus was created in 1983",
-      "QWERTY was designed to slow down typing",
-      "The first programmer was Ada Lovelace",
-      "There are 700+ programming languages",
-      "The first 1GB hard drive weighed 550 pounds",
-      "Space bar is the most pressed key",
-      "Code comments were invented in 1947",
-      "The cloud is just other people's computers",
-      "Python is named after Monty Python",
-      "Java was called Oak originally",
-      "C++ was called 'C with Classes'",
-      "JavaScript was created in 10 days",
-      "The first computer mouse was made of wood",
-      "Email existed before the World Wide Web",
-      "The average programmer drinks 3.2 cups of coffee per day",
-      "Coding burns 120 calories per hour",
-      "The term 'cookie' comes from 'magic cookie' in computing"
+      "冷知识：第一个电脑bug是真正的bug！🐛",
+      "你知道吗？@符号在西班牙语中叫'arroba'",
+      "冷知识：'调试'来自从电脑中移除真正的bug",
+      "第一个电脑病毒创建于1983年",
+      "QWERTY设计用来减慢打字速度",
+      "第一个程序员是Ada Lovelace",
+      "有700+编程语言",
+      "第一个1GB硬盘重550磅",
+      "空格键是最常按的键",
+      "代码注释发明于1947年",
+      "云只是别人的电脑",
+      "Python以Monty Python命名",
+      "Java最初叫Oak",
+      "C++曾叫'C with Classes'",
+      "JavaScript在10天内创建",
+      "第一个电脑鼠标是木制的",
+      "电子邮件存在于万维网之前",
+      "程序员平均每天喝3.2杯咖啡",
+      "编程每小时燃烧120卡路里",
+      "'cookie'一词来自计算中的'magic cookie'"
     ];
-    
+
     return facts[Math.floor(Math.random() * facts.length)];
   }
-  
-  // Get tech predictions
+
+  // 获取科技预测
   static getTechPrediction(): string {
     const predictions = [
-      "In the future, all bugs will fix themselves... right?",
-      "Prediction: JavaScript will add 5 new frameworks today",
-      "By 2030, we'll all be coding in emojis 🤖",
-      "Future IDEs will read your mind. Privacy not included.",
-      "Quantum debugging: The bug both exists and doesn't",
-      "AI will write all code. Pets will supervise.",
-      "Tomorrow's TODO: Today's technical debt",
-      "The singularity is just one npm install away",
-      "Future commits will be made via interpretive dance",
-      "Prediction: Semicolons will become self-aware",
-      "In 10 years, we'll nostalgically remember manual coding",
-      "The next big thing: Blockchain-powered console.log",
-      "Future error messages will include therapy",
-      "Prediction: Tabs vs Spaces war ends in 2847",
-      "By 2050, code will be written entirely in memes"
+      "将来，所有bug都会自己修复... 对吧？",
+      "预测：JavaScript今天会加5个新框架",
+      "到2030年，我们都会用emoji编程 🤖",
+      "未来IDE会读心。隐私不包含在内。",
+      "量子调试：bug既存在又不存在",
+      "AI会写所有代码。宠物会监督。",
+      "明天的TODO：今天的技术债",
+      "奇点只是一个npm install",
+      "未来的提交将通过解释性舞蹈进行",
+      "预测：分号会变得有自我意识",
+      "10年后，我们会怀旧地记住手动编程",
+      "下一个大东西：区块链驱动的console.log",
+      "未来错误信息将包含治疗",
+      "预测：Tab vs 空格战争在2847年结束",
+      "到2050年，代码将完全用表情包编写"
     ];
-    
+
     return predictions[Math.floor(Math.random() * predictions.length)];
   }
-  
-  // Master method to get any random thought
+
+  // 主方法获取任何随机想法
   static getThought(state: PetState, context?: any): string {
-    // Weight different types of random thoughts
+    // 权重不同类型的随机想法
     const roll = Math.random();
-    
+
     if (roll < 0.15) {
       return this.getPhilosophicalThought();
     } else if (roll < 0.30) {
