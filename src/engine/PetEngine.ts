@@ -44,6 +44,11 @@ export class PetEngine {
   
   async initialize(): Promise<void> {
     this.state = await this.stateManager.load();
+
+    // Query usage on initialization if enabled
+    if (config.usageQueryEnabled && this.usageQueryClient) {
+      await this.updateUsageStat();
+    }
   }
   
   async update(transcriptPath?: string, sessionId?: string): Promise<void> {

@@ -143,7 +143,7 @@ export const config: Config = {
   feedbackIconStyle: (process.env.PET_FEEDBACK_ICON_STYLE as any) || 'emoji',
   feedbackRemarkLength: parseInt(process.env.PET_FEEDBACK_REMARK_LENGTH || '50'),
   showComplianceScore: process.env.PET_SHOW_COMPLIANCE_SCORE === 'true',
-  feedbackMaxHistory: parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '200'),
+  feedbackMaxHistory: parseInt(process.env.PET_FEEDBACK_MAX_HISTORY || '20'),
 
   // Custom stat attribute (enabled by default)
   customStatEnabled: process.env.PET_CUSTOM_STAT_ENABLED !== 'false', // Default: true
