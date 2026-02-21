@@ -1,11 +1,12 @@
 {
-  "name": "claude-code-tamagotchi",
-  "version": "1.3.1",
-  "description": "A virtual pet that lives in your Claude Code statusline",
+  "name": "@kaolamiao/claude-code-tamagotchi",
+  "version": "1.3.2",
+  "description": "A virtual pet that lives in your Claude Code statusline (customized fork)",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "claude-code-tamagotchi": "./bin/claude-code-tamagotchi.cjs"
+    "claude-code-tamagotchi": "./bin/claude-code-tamagotchi.cjs",
+    "my-pet": "./bin/claude-code-tamagotchi.cjs"
   },
   "scripts": {
     "start": "bun run src/index.ts",
@@ -13,7 +14,8 @@
     "reset": "bun run scripts/reset-pet.ts",
     "build": "bun build src/index.ts --outdir=dist --target=node && bun build src/commands/cli.ts --outdir=dist/commands --target=node",
     "dev": "bun run --watch src/index.ts",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "postinstall": "node scripts/auto-config.cjs"
   },
   "keywords": [
     "claude-code",
@@ -26,8 +28,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ido-Levi/claude-code-tamagotchi.git"
+    "url": "https://github.com/KaolaMiao/claude-code-tamagotchi.git"
   },
+  "bugs": {
+    "url": "https://github.com/KaolaMiao/claude-code-tamagotchi/issues"
+  },
+  "homepage": "https://github.com/KaolaMiao/claude-code-tamagotchi#readme",
   "files": [
     "bin/",
     "src/",
