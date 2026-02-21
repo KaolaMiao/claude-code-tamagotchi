@@ -18,17 +18,15 @@ const COMMANDS_DIR = path.join(CLAUDE_DIR, 'commands');
 
 // 获取包安装路径
 function getPackagePath() {
-  // 全局安装时，从 npm_global/node_modules/@dota/claude-code-tamagotchi 获取
-  // 或从 bun install/global 获取
+  // 全局安装时，从 bun install/global 获取
   try {
-    // 尝试获取全局安装路径
     const { execSync } = require('child_process');
     let globalPath;
 
     try {
       // 优先使用 bun 的全局路径
       globalPath = execSync('bun pm bin -g', { encoding: 'utf-8' }).trim();
-      const packagePath = path.join(globalPath, '..', 'node_modules', '@dota', 'claude-code-tamagotchi');
+      const packagePath = path.join(globalPath, '..', 'node_modules', '@kaolamiao', 'claude-code-tamagotchi');
       if (fs.existsSync(packagePath)) {
         return packagePath;
       }
@@ -37,7 +35,7 @@ function getPackagePath() {
     try {
       // 备用：npm 全局路径
       globalPath = execSync('npm root -g', { encoding: 'utf-8' }).trim();
-      const packagePath = path.join(globalPath, '@dota', 'claude-code-tamagotchi');
+      const packagePath = path.join(globalPath, '@kaolamiao', 'claude-code-tamagotchi');
       if (fs.existsSync(packagePath)) {
         return packagePath;
       }
@@ -69,23 +67,40 @@ function configureStatusLine(packagePath) {
     }
   }
 
-  // 检查是否已有配置
-  if (settings.statusLine && settings.statusLine.command) {
-    if (settings.statusLine.command.includes(PACKAGE_NAME) ||
-        settings.statusLine.command.includes('claude-code-tamagotchi')) {
-      console.log('✅ statusLine 已配置，跳过');
-      return;
-    }
-    console.log('⚠️  已存在其他 statusLine 配置');
-    console.log(`   当前: ${settings.statusLine.command}`);
-    console.log(`   建议使用: bunx ${PACKAGE_NAME} statusline`);
+  const correctCommand = `bunx ${PACKAGE_NAME} statusline`;
+
+  // 检查是否已有正确的配置
+  if (settings.statusLine && settings.statusLine.command === correctCommand) {
+    console.log('✅ statusLine 已正确配置，跳过');
     return;
   }
 
-  // 添加配置
+  // 检查是否已有旧的或错误的配置
+  if (settings.statusLine && settings.statusLine.command) {
+    const currentCmd = settings.statusLine.command;
+    // 如果是本地路径配置，更新为 bunx 命令
+    if (currentCmd.includes('/src/index.ts') ||
+        currentCmd.includes('\\src\\index.ts') ||
+        currentCmd.includes('/dist/index.js') ||
+        currentCmd.includes('\\dist\\index.js') ||
+        currentCmd.includes('bun run')) {
+      console.log('🔄 检测到旧配置，正在更新...');
+      console.log(`   旧: ${currentCmd}`);
+      console.log(`   新: ${correctCommand}`);
+    } else {
+      // 其他配置，提示但不覆盖
+      console.log('⚠️  已存在其他 statusLine 配置');
+      console.log(`   当前: ${currentCmd}`);
+      console.log(`   建议: ${correctCommand}`);
+      console.log('   如需更新，请手动修改 ~/.claude/settings.json');
+      return;
+    }
+  }
+
+  // 添加/更新配置
   settings.statusLine = {
     type: 'command',
-    command: `bunx ${PACKAGE_NAME} statusline`,
+    command: correctCommand,
     padding: 0
   };
 
