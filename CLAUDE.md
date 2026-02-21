@@ -155,3 +155,85 @@ When performing code reviews on this codebase:
 - [ ] Pet statusline displays correctly
 - [ ] Custom stat providers work (if applicable)
 - [ ] Environment variables are properly loaded from `~/.claude/settings.json`
+
+---
+
+## Custom Fork Installation (KaolaMiao Version)
+
+This is a customized fork with additional features and auto-configuration support.
+
+### One-Line Installation
+
+```bash
+bun add -g github:KaolaMiao/claude-code-tamagotchi#custom/personal-fork
+```
+
+### Post-Install Configuration
+
+If `postinstall` is blocked by Bun (security feature), run manually:
+
+```bash
+node ~/.bun/install/global/node_modules/@kaolamiao/claude-code-tamagotchi/scripts/auto-config.cjs
+```
+
+This will automatically:
+- Configure `statusLine` in `~/.claude/settings.json`
+- Install `/pet-*` commands to `~/.claude/commands/`
+
+### Available Commands After Installation
+
+```bash
+# Statusline (default)
+my-pet
+my-pet statusline
+
+# Pet care commands
+my-pet feed pizza
+my-pet play ball
+my-pet name "喵二"
+my-pet stats
+my-pet clean
+my-pet sleep
+my-pet wake
+my-pet reset
+```
+
+### Sync with Upstream
+
+To sync this fork with the original repository:
+
+```bash
+# Add upstream if not exists
+git remote add upstream https://github.com/Ido-Levi/claude-code-tamagotchi.git
+
+# Fetch and merge
+git fetch upstream
+git checkout custom/personal-fork
+git merge upstream/main
+
+# Handle conflicts (usually only in package.json and bin/claude-code-tamagotchi.cjs)
+# Then push
+git push origin custom/personal-fork
+```
+
+### Modified Files (for sync reference)
+
+Only 3 files differ from upstream:
+1. `package.json` - Package name, version, postinstall script, repository URL
+2. `bin/claude-code-tamagotchi.cjs` - Force use bun instead of node
+3. `scripts/auto-config.cjs` - Auto-configuration script (new file)
+
+### Environment Variables
+
+Add to `~/.claude/settings.json` under `env` for customization:
+
+```json
+{
+  "env": {
+    "PET_NAME": "喵二",
+    "PET_TYPE": "cat",
+    "PET_FEEDBACK_ENABLED": "true",
+    "PET_GROQ_API_KEY": "your-api-key"
+  }
+}
+```
