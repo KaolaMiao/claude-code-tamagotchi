@@ -59,42 +59,31 @@ That's your Claude Code Tamagotchi - part companion, part life coach, all friend
 
 ### 30-Second Install
 ```bash
-# Install globally
-bun add -g claude-code-tamagotchi
-
-# Update your Claude Code settings.json:
-# ~/.claude/settings.json
-{
-  "statusLine": {
-    "type": "command",
-    "command": "bunx claude-code-tamagotchi statusline",
-    "padding": 0
-  }
-}
+# Install globally from GitHub (with auto-configuration)
+bun add -g github:KaolaMiao/claude-code-tamagotchi#custom/personal-fork --trust
 
 # That's it! Your pet is alive! 🎉
+# Auto-configuration will set up:
+# - statusLine in ~/.claude/settings.json
+# - /pet-* commands in ~/.claude/commands/
 ```
 
 ## Installation Options
 
-### Option 1: Global Install (Easiest!)
+### Option 1: Global Install from GitHub (Recommended)
 ```bash
-# Install globally with npm
-npm install -g claude-code-tamagotchi
+# Install with auto-configuration
+bun add -g github:KaolaMiao/claude-code-tamagotchi#custom/personal-fork --trust
 
-# Or with bun  
-bun add -g claude-code-tamagotchi
-
-# Update your Claude Code settings.json (see above)
+# If postinstall is blocked, run manually:
+node ~/.bun/install/global/node_modules/@kaolamiao/claude-code-tamagotchi/scripts/auto-config.cjs
 ```
 
-**⚠️ Note:** Global install gives you:
-- ✅ Pet in statusline  
-- ✅ CLI commands (`claude-code-tamagotchi feed pizza`)
-- ❌ NO slash commands in Claude Code
-- ❌ NO violation detection by default
-
-**Want ALL features?** See Option 2 below.
+**Features:**
+- ✅ Pet in statusline
+- ✅ CLI commands (`my-pet feed pizza`)
+- ✅ Slash commands in Claude Code (`/pet-feed pizza`)
+- ✅ Auto-configuration
 
 ### Option 2: Clone & Auto-Setup (Full Features)
 ```bash
