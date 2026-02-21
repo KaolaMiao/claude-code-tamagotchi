@@ -17,10 +17,18 @@ const petCommands = ['feed', 'play', 'pet', 'clean', 'sleep', 'wake', 'stats', '
 // If no command or "statusline" command, run the statusline
 if (!command || command === 'statusline') {
   const scriptPath = path.join(__dirname, '..', 'src', 'index.ts');
-  
-  // Check if bun is available
-  const runner = process.env.BUN_INSTALL ? 'bun' : 'node';
-  
+
+  // Try to use bun first (required for TypeScript), fallback to node
+  let runner = 'bun';
+  try {
+    require('child_process').execSync('bun --version', { stdio: 'ignore' });
+  } catch {
+    runner = 'node';
+    console.error('⚠️  Bun is required to run claude-code-tamagotchi');
+    console.error('   Install bun: curl -fsSL https://bun.sh/install | bash');
+    process.exit(1);
+  }
+
   const child = spawn(runner, [scriptPath], {
     stdio: 'inherit',
     env: process.env
@@ -37,10 +45,18 @@ if (!command || command === 'statusline') {
 } else if (petCommands.includes(command)) {
   // Handle pet care commands
   const cliPath = path.join(__dirname, '..', 'src', 'commands', 'cli.ts');
-  
-  // Check if bun is available
-  const runner = process.env.BUN_INSTALL ? 'bun' : 'node';
-  
+
+  // Try to use bun first (required for TypeScript), fallback to node
+  let runner = 'bun';
+  try {
+    require('child_process').execSync('bun --version', { stdio: 'ignore' });
+  } catch {
+    runner = 'node';
+    console.error('⚠️  Bun is required to run claude-code-tamagotchi');
+    console.error('   Install bun: curl -fsSL https://bun.sh/install | bash');
+    process.exit(1);
+  }
+
   // Build the command arguments
   const cliArgs = [cliPath, command];
   if (commandArg) {
